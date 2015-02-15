@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/autospangridlayout.iml" filepath="$PROJECT_DIR$/autospangridlayout.iml" />
       <module fileurl="file://$PROJECT_DIR$/autospangridlayout/autospangridlayout-autospangridlayout.iml" filepath="$PROJECT_DIR$/autospangridlayout/autospangridlayout-autospangridlayout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
     </modules>
   </component>
 </project>
