@@ -1,1 +1,1 @@
-include ':sample', ':autospangridlayout'
+include ':sample', ':autospan-gridlayout', ':sample2'

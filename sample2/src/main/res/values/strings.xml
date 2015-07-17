@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">sample2</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="url_template">http://lorempixel.com/%1$d/300/cats/</string>
+</resources>

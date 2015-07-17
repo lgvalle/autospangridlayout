@@ -1,7 +1,7 @@
 package com.lgvalle.sample;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -14,24 +14,24 @@ import com.lgvalle.sample.sample.R;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
     private String[] nodesSrc = {"Lorem", "ipsum", "dolor", "sit", "amet consectetur adipiscing elit", "sed", "do", "eiusmod", "tempor incididunt", "ut", "labore et", "dolore magna", "aliqua"};
-    private ArrayList<AutoSpannableText> nodes = new ArrayList<>();
+    private ArrayList<SpannableText> nodes = new ArrayList<>();
     private static final String TAG = MainActivity.class.getSimpleName();
-    private AutoSpanTextViewAdapter adapter;
+    private TextViewAdapter adapter;
     private int index;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        fetchFakeData();
+        initData();
         setupAutoLayout();
     }
 
-    private void fetchFakeData() {
+    private void initData() {
         for (String s : nodesSrc) {
-            AutoSpannableText autoMeasurableText = new AutoSpannableTextImpl(this, s);
+            SpannableText autoMeasurableText = new SpannableTextImpl(this, s);
             nodes.add(autoMeasurableText);
         }
     }
@@ -40,7 +40,7 @@ public class MainActivity extends ActionBarActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.autofitView);
         AutoSpanGridLayoutManager layoutManager = new AutoSpanGridLayoutManager(this, getResources().getInteger(R.integer.columns));
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new AutoSpanTextViewAdapter(nodes);
+        adapter = new TextViewAdapter(nodes);
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
