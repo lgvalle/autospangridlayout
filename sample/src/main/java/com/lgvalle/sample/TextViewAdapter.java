@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.lgvalle.autospangridlayout.AutoSpanAdapter;
+import com.lgvalle.autospangridlayout.AutoSpanGridLayoutManager;
 import com.lgvalle.autospangridlayout.AutoSpannable;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by lgvalle on 31/01/15.
  */
-public class TextViewAdapter extends RecyclerView.Adapter<TextViewAdapter.TextViewHolder> implements AutoSpanAdapter {
+public class TextViewAdapter extends RecyclerView.Adapter<TextViewAdapter.TextViewHolder> implements AutoSpanGridLayoutManager.AutoSpanAdapter {
     private static final String TAG = TextViewAdapter.class.getSimpleName();
 
     private List<SpannableText> nodes;
