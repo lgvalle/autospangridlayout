@@ -4,23 +4,31 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseIntArray;
+
+import java.util.List;
 
 /**
  * Created by lgvalle on 31/01/15.
  */
 public class AutoSpanGridLayoutManager extends GridLayoutManager {
+    private static final String TAG = AutoSpanGridLayoutManager.class.getSimpleName();
     private SparseIntArray itemsSpanSize;
     private float columnWidth;
 
-    public AutoSpanGridLayoutManager(Context context, int spanCount) {
-        super(context, spanCount);
-        init(context, spanCount);
+    public interface AutoSpanAdapter {
+        List<? extends AutoSpannable> getItems();
     }
 
-    private void init(Context context, final int spanCount) {
+    public AutoSpanGridLayoutManager(Context context, int spanCount, int viewPadding) {
+        super(context, spanCount);
+        init(context, spanCount, viewPadding);
+    }
+
+    private void init(Context context, final int spanCount, int viewPadding) {
         itemsSpanSize = new SparseIntArray();
-        columnWidth = calculateColumnWidth(context, spanCount);
+        columnWidth = calculateColumnWidth(context, spanCount, viewPadding);
 
         setSpanSizeLookup(new SpanSizeLookup() {
             @Override
@@ -30,10 +38,11 @@ public class AutoSpanGridLayoutManager extends GridLayoutManager {
         });
     }
 
-    private float calculateColumnWidth(Context context, int spanCount) {
+    private float calculateColumnWidth(Context context, int spanCount, int viewPadding) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        return (displayMetrics.widthPixels) / spanCount;
+        return (displayMetrics.widthPixels - viewPadding*2) / spanCount;
     }
+
 
     @Override
     public void onAdapterChanged(RecyclerView.Adapter oldAdapter, RecyclerView.Adapter newAdapter) {
@@ -50,6 +59,7 @@ public class AutoSpanGridLayoutManager extends GridLayoutManager {
     @Override
     public void onItemsChanged(RecyclerView recyclerView) {
         super.onItemsChanged(recyclerView);
+        Log.d(TAG, "on Items changed");
         calculateItemsSpan(recyclerView.getAdapter());
     }
 
@@ -62,7 +72,21 @@ public class AutoSpanGridLayoutManager extends GridLayoutManager {
     @Override
     public void onItemsUpdated(RecyclerView recyclerView, int positionStart, int itemCount) {
         super.onItemsUpdated(recyclerView, positionStart, itemCount);
+        Log.d(TAG, "on Items updated");
         calculateItemsSpan(recyclerView.getAdapter(), positionStart, positionStart+itemCount);
+    }
+
+    @Override
+    public void onItemsUpdated(RecyclerView recyclerView, int positionStart, int itemCount, Object payload) {
+        super.onItemsUpdated(recyclerView, positionStart, itemCount, payload);
+        Log.d(TAG, "on Items updated");
+        calculateItemsSpan(recyclerView.getAdapter(), positionStart, positionStart + itemCount);
+    }
+
+    @Override
+    public void onItemsMoved(RecyclerView recyclerView, int from, int to, int itemCount) {
+        super.onItemsMoved(recyclerView, from, to, itemCount);
+        // todo
     }
 
     private void calculateItemsSpan(RecyclerView.Adapter a) {
@@ -78,6 +102,8 @@ public class AutoSpanGridLayoutManager extends GridLayoutManager {
             }
         } catch (ClassCastException e) {
             throw new IllegalArgumentException("RecyclerView.Adapter must implement " + AutoSpanAdapter.class.getSimpleName());
+        } catch (ArrayIndexOutOfBoundsException e1) {
+            Log.e(TAG, "Error calculating span for start: "+start+ " - end: "+end);
         }
     }
 

@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupAutoLayout() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.autofitView);
-        AutoSpanGridLayoutManager layoutManager = new AutoSpanGridLayoutManager(this, getResources().getInteger(R.integer.columns));
+        AutoSpanGridLayoutManager layoutManager = new AutoSpanGridLayoutManager(this, getResources().getInteger(R.integer.columns), 5);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new TextViewAdapter(nodes);
         recyclerView.setAdapter(adapter);
